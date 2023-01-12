@@ -1,84 +1,86 @@
 package model;
 
-import entity.*;
+import entity.DaftarFilm;
+import entity.Pembeli;
 
 import java.util.ArrayList;
 
-public class BioskopModel {
-    public static ArrayList<Admin> arrayAdmin = new ArrayList<>();
-    public static ArrayList<User> arrayUser = new ArrayList<>();
-    public static ArrayList<DaftarFilm> arrayFilm = new ArrayList<>();
-    public static void initialData(){
-        dataAdmin();
-        dataFilm();
+public class BioskopModel implements InterfaceModel{
+    private ArrayList<Pembeli> dataBuyer;
+
+    public BioskopModel(){
+        dataBuyer = new ArrayList<Pembeli>();
+    }
+    public void tambahData(Pembeli buyer){
+        dataBuyer.add(buyer);
+    }
+    public ArrayList<Pembeli>getDataBuyer(){
+        return dataBuyer;
+    }
+    public int size(){
+        return dataBuyer.size();
     }
 
-//  Admin
-    public static void dataAdmin(){
-        Admin data_Admin = new Admin("deni", "denut", "ADP");
-        arrayAdmin.add(data_Admin);
-    }
-    public static ArrayList<Admin> allAdmin(){
-        return arrayAdmin;
-    }
-//  User
-    public static void initialUser(){
-        User data_User = new User("Ersa", "Ersa", "123");
-        arrayUser.add(data_User);
-    }
-    public static ArrayList<User> allUser(){
-        return arrayUser;
-    }
-    public static void tambahAdmin(String username, String kodeAdmin) {
-    }
-//  Pesan Tiket
-    public static void dataFilm(){
-        DaftarFilm koleksiFilm = new DaftarFilm("Avatar", 1984, 12.00, 999, 35.000);
-        arrayFilm.add(koleksiFilm);
-    }
-    public static void viewdaftarFilm(){
-        for(DaftarFilm dataFilm : BioskopModel.arrayFilm){
-            System.out.println("Judul Film          :"+dataFilm.getJudulFilm());
-            System.out.println("Kode Film           :"+dataFilm.getKodeFilm());
-            System.out.println("Jam Tayang          :"+dataFilm.getJamTayang());
-            System.out.println("Jumlah Pembelian    :"+dataFilm.getJumlahTiket());
-            System.out.println("Total Harga         :"+dataFilm.getHargaTiket());
-        }
-    }
-    public static void lihatDataFilm(){
-        for(DaftarFilm datafilm : BioskopModel.arrayFilm){
-            System.out.println("Judul Film      :"+ datafilm.getJudulFilm());
-            System.out.println("Kode Film       :"+ datafilm.getKodeFilm());
-            System.out.println("Pilih Jam Tayang:"+ datafilm.getJamTayang());
-            System.out.println("Jumlah Pembelian:"+ datafilm.getJumlahTiket());
-            System.out.println("Total Harga     :"+ datafilm.getHargaTiket());
-        }
-    }
-// Data Tiket
-    public static void tambahFilm(String judulFilm, int kodeFilm, double jamTayang, int jumlahTiket, double hargaTiket) {
-        DaftarFilm addFilm = new DaftarFilm(judulFilm, kodeFilm, jamTayang, jumlahTiket, hargaTiket);
-        BioskopModel.arrayFilm.add(addFilm);
-        
-    }
-
-    public static DaftarFilm cariDataFilm(String filmName) {
-        for(DaftarFilm Filmdata : BioskopModel.arrayFilm){
-            if(Filmdata.getKodeFilm().equals(filmName)){
-                return Filmdata;
+    @Override
+    public void tampil() {
+        for(Pembeli data : dataBuyer){
+            System.out.println("Nama :"+data.getPembeli().getNama()+"Username"+data.getPembeli().getUsername()+"Password"+data.getPembeli().getPassword()+"Film"+ DaftarFilm.film[data.getFilmIndex()]+ "VERIFIKASI");
+            if(data.isLegit()==false){
+                System.out.println("BELUM DI VERIFIKASI");
+            }
+            else{
+                System.out.println("TERVERIFIKASI");
             }
         }
-        return null;
     }
 
-    public static void hapusDataFilm(DaftarFilm cariFilm) {
+    @Override
+    public int cekdataAllUser(String Username, String password) {
+        int a = 0;
+        if(dataBuyer.size() == 0){
+            a = -1;
+        }
+        else {
+            for(int i=0; i<dataBuyer.size(); i++){
+                if(dataBuyer.get(i).getPembeli().getUsername().equals(Username)){
+                    a = i;
+                    break;
+                }
+                else{
+                    a =-2;
+                }
+            }
+        }
+        return a;
     }
-
-    public static void tambahFilm(String judulFilm, int kodeFilm) {
+    public Pembeli tampilDataPembeli(int index){
+        return dataBuyer.get(index);
     }
-
-    public static void editDataFilm(DaftarFilm findFilm) {
+    public void verifUpdate(int index, Pembeli daftarBuyer){
+        dataBuyer.set(index, daftarBuyer);
     }
-// Tambah User
-    public static void tambahUser() {
+    public void hapusDataBuyer(int index){
+        dataBuyer.remove(dataBuyer.get(index));
+    }
+    public ArrayList<Pembeli> allDataBuyer(){
+        return dataBuyer;
+    }
+    private int caridataBuyer(String nama){
+        int index = -1;
+        for(int i=0; i<dataBuyer.size(); i++){
+            if(nama.equals(dataBuyer.get(i).getPembeli().getNama()))
+                index = i;
+        }
+        return index;
+    }
+    public void update(String nama, int updateFilm){
+        int data;
+        if(caridataBuyer(nama) !=1){
+            dataBuyer.get(caridataBuyer(nama)).setFilmIndex(updateFilm);
+            data = 1;
+        }
+        else{
+            data = 0;
+        }
     }
 }

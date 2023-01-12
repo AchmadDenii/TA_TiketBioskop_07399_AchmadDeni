@@ -1,17 +1,19 @@
 package entity;
-public class Admin extends Regist{
-    protected static String KodeAdmin;
 
-    public Admin(String nama, String username, String KodeAdmin){
+public class Admin extends AllUser {
+    private String kodeAdmin;
+
+    public Admin(String nama, String username, String kodeAdmin) {
         super(nama, username);
-        this.KodeAdmin = KodeAdmin;
+        this.kodeAdmin = kodeAdmin;
     }
-
-    public static String getKodeAdmin() { //HARUS STATIS ???
-        return KodeAdmin;
+    public String getNama(){
+        return this.nama;
     }
-
+    public String getKodeAdmin() {
+        return kodeAdmin;
+    }
     public void setKodeAdmin(String kodeAdmin) {
-        KodeAdmin = kodeAdmin;
+        this.kodeAdmin = kodeAdmin;
     }
 }
