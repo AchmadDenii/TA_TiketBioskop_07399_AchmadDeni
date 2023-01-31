@@ -16,15 +16,12 @@ public class AppView{
     JTextField isiRegistNama, isiRegistUsername;
     JPasswordField isiRegistPassword;
     JButton tombolRegis, tombolMasuk;
-    JLabel imgLabel;
-    private boolean verifLogin = false;
 
     public AppView() {
-//      Set Desktop
         BioskopView.setSize(700, 650);
         BioskopView.setLayout(null);
         BioskopView.setVisible(true);
-        BioskopView.getContentPane().setBackground(Color.getHSBColor(206,49,100));
+        BioskopView.getContentPane().setBackground(Color.WHITE);
         BioskopView.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         BioskopView.setLocationRelativeTo(null);
 
@@ -32,11 +29,9 @@ public class AppView{
         event();
     }
     private void component(){
-//      Set Nama Aplikasi
         NamaBioskop = new JLabel("BIOSKOP");
         NamaBioskop.setBounds(269,50,379,88);
         NamaBioskop.setFont(new Font("Times New Roman", Font.ITALIC,40));
-        NamaBioskop.setBackground(Color.cyan);
         NamaBioskop.setVisible(true);
         BioskopView.add(NamaBioskop);
 
@@ -77,60 +72,31 @@ public class AppView{
         BioskopView.add(isiRegistPassword);
 
         tombolRegis = new JButton("Registrasi");
-        tombolRegis.setBounds(100,400,90,25);
+        tombolRegis.setBounds(100,400,200,25);
         tombolRegis.setBackground(Color.gray);
         tombolRegis.setVisible(true);
         BioskopView.add(tombolRegis);
 
         tombolMasuk = new JButton("Login");
-        tombolMasuk.setBounds(200,400,90,25);
+        tombolMasuk.setBounds(100,430,200,25);
         tombolMasuk.setBackground(Color.gray);
         tombolMasuk.setVisible(true);
         BioskopView.add(tombolMasuk);
-
-        JLabel imgLabel = new cobainputGambar (); //test
-        imgLabel.setBounds(300,450,50,30); //test
-        imgLabel.setVisible(true); //test
-        BioskopView.add(imgLabel); //test
     }
-
-    private JLabel cobainputGambar(){ //test
-        String gambar = "src/DataGambar/annie.png";
-        try{
-            BufferedImage bImage;
-            Image imgResize;
-            ImageIcon imgIcon = null;
-
-            bImage = ImageIO.read(new File(gambar));
-            imgResize = bImage.getScaledInstance(150,150,Image.SCALE_SMOOTH);
-            imgIcon = new ImageIcon(imgResize);
-            return new JLabel(imgIcon);
-        }
-        catch (IOException ex){
-            return new JLabel("GAGAL MEMBACA FILE");
-        }
-    } //test
-
     private void event(){
         tombolRegis.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(verifLogin = true){
-                    try{
-                        String Nama = isiRegistNama.getText();
-                        String Username = isiRegistUsername.getText();
-                        String Password = isiRegistPassword.getText();
 
-                        AllObjectGUI.user.tambah(Nama, Username,Password);
-                        JOptionPane.showMessageDialog(null,"Daftar Berhasil", "Informasi", JOptionPane.INFORMATION_MESSAGE);
-                        inputan();
-                    }
-                    catch(Exception pengecualian){
-                        JOptionPane.showMessageDialog(null, "Daftar Gagal!!!", "informasi", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                }
-                else{
-                    JOptionPane.showMessageDialog(null,"DAFTAR GAGAL",null,JOptionPane.INFORMATION_MESSAGE);
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String Nama = isiRegistNama.getText();
+                String Username = isiRegistUsername.getText();
+                String Password = isiRegistPassword.getText();
+                if(Nama.equals("")){
+                    JOptionPane.showMessageDialog(null, "Format Penulisan Salah", "Registrasi Gagal", JOptionPane.INFORMATION_MESSAGE);
+                }else {
+                    AllObjectGUI.user.tambah(Nama, Username, Password);
+                    JOptionPane.showMessageDialog(null, "DAFTAR BERHASIL", "informasi", JOptionPane.INFORMATION_MESSAGE);
+                    inputan();
                 }
             }
         });
@@ -147,13 +113,5 @@ public class AppView{
         isiRegistNama.setText(null);
         isiRegistUsername.setText(null);
         isiRegistPassword.setText(null);
-    }
-
-    private class cobainputGambar extends JLabel {
-        public cobainputGambar(){
-            setSize(400,400); //test
-            setLayout(null); //test
-            setVisible(true);
-        }
     }
 }

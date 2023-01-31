@@ -65,7 +65,7 @@ public class BioskopModel implements InterfaceModel{
     public ArrayList<Pembeli> allDataBuyer(){
         return dataBuyer;
     }
-    private int caridataBuyer(String nama){
+    public int caridataBuyer(String nama){
         int index = -1;
         for(int i=0; i<dataBuyer.size(); i++){
             if(nama.equals(dataBuyer.get(i).getPembeli().getNama()))

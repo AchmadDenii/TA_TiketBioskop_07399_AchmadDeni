@@ -6,7 +6,7 @@ import entity.User;
 import javax.swing.table.DefaultTableModel;
 
 public class UserController implements InterfaceController {
-    int loginIndex = 0;
+    public int loginIndex = 0;
 
     public User getUserData(){
         return AllObjectController.userApp.getUserArray(loginIndex);
@@ -24,6 +24,7 @@ public class UserController implements InterfaceController {
     }
     public User entityUser(){
         return AllObjectController.userApp.getUserArray(loginIndex);
+
     }
     public int cekUser(String Username){
         int cek = AllObjectController.bioskopModel.cekdataAllUser(Username, null);
@@ -32,8 +33,8 @@ public class UserController implements InterfaceController {
     public Pembeli tampilPembeli(int index){
         return AllObjectController.bioskopModel.tampilDataPembeli(index);
     }
-    public void update(String film, int updateFilm){
-        AllObjectController.bioskopModel.update(film, updateFilm);
+    public void update(String Film, int updateFilm){
+        AllObjectController.bioskopModel.update(Film, updateFilm);
     }
     public void hapusDataBuyer(int index){
         AllObjectController.bioskopModel.hapusDataBuyer(index);
@@ -42,7 +43,7 @@ public class UserController implements InterfaceController {
         DefaultTableModel tabelBuyer = new DefaultTableModel();
         Object[] kolom = {"nama","Username","Password", "status"};
         tabelBuyer.setColumnIdentifiers(kolom);
-        int size = AllObjectController.bioskopModel.size();
+        int size = AllObjectController.bioskopModel.allDataBuyer().size();
         String verifikasi = null;
         for(int i=0; i<size; i++){
             if(AllObjectController.bioskopModel.allDataBuyer().get(i).isLegit() ==false){

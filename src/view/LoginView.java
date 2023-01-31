@@ -1,7 +1,5 @@
 package view;
 
-import controller.AllObjectController;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,10 +8,9 @@ import java.awt.event.ActionListener;
 public class LoginView {
     JFrame loginPage = new JFrame();
     JLabel NamaBioskop, Login;
-    JCheckBox LoginAdmin, LoginUser;
     JLabel Username, Password;
     JTextField isiUsername, isiPassword;
-    JButton tombolMasuk, tombolKembali;
+    JButton tombolMasuk, tombolKembali, tombollogAdmin;
 
     private boolean verifikasi = false;
     public LoginView(){
@@ -21,7 +18,6 @@ public class LoginView {
         loginPage.setLayout(null);
         loginPage.getContentPane().setBackground(Color.getHSBColor(206,49,100));
         loginPage.setVisible(true);
-        loginPage.getContentPane().setBackground(Color.getHSBColor(206,49,100));
         loginPage.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         loginPage.setLocationRelativeTo(null);
 
@@ -41,14 +37,14 @@ public class LoginView {
         loginPage.add(Login);
 
         Username = new JLabel("MASUKKAN USERNAME");
-        Username.setBounds(100,180,357,62);
+        Username.setBounds(100,180,200,50);
         Username.setFont(new Font("Times New Roman",Font.CENTER_BASELINE,12));
-        loginPage.add(Login);
+        loginPage.add(Username);
         isiUsername = new JTextField();
         isiUsername.setBounds(100,220,200,30);
         loginPage.add(isiUsername);
 
-        Password = new JLabel();
+        Password = new JLabel("MASUKKAN PASSWORD");
         Password.setBounds(100, 250,200,50);
         Password.setFont(new Font("Times New Roman",Font.CENTER_BASELINE, 12));
         loginPage.add(Password);
@@ -57,7 +53,7 @@ public class LoginView {
         loginPage.add(isiPassword);
 
         tombolMasuk = new JButton("Login");
-        tombolMasuk.setBounds(200,400,90,25);
+        tombolMasuk.setBounds(210,400,90,25);
         tombolMasuk.setBackground(Color.gray);
         tombolMasuk.setVisible(true);
         loginPage.add(tombolMasuk);
@@ -67,28 +63,34 @@ public class LoginView {
         tombolKembali.setBackground(Color.gray);
         loginPage.add(tombolKembali);
 
+        tombollogAdmin = new JButton("LOGIN AS ADMIN");
+        tombollogAdmin.setBounds(100,350,200,25);
+        tombollogAdmin.setBackground(Color.gray);
+        loginPage.add(tombollogAdmin);
+
     }
     private void event(){
+
         tombolMasuk.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(verifikasi == true){
+                if(verifikasi == false){
                     try {
-                        AllObjectGUI.user.login(Username.getText(), Password.getText());
-                        String nama = AllObjectGUI.user.entityUser().getUsername();
+
+                        AllObjectGUI.user.login(isiUsername.getText(), isiPassword.getText());
+                        String nama = AllObjectGUI.user.entityUser().getNama();
+                        JOptionPane.showMessageDialog(null, "Selamat datang " + nama, "information", JOptionPane.INFORMATION_MESSAGE);
+                        userView Umenu = new userView();
                         loginPage.dispose();
-                        userView buyer = new userView();
+                    } catch (Exception eception) {
+                        JOptionPane.showMessageDialog(null, "Nama atau Password salah", "information", JOptionPane.INFORMATION_MESSAGE);
+                        inputan();
                     }
-                    catch (Exception pengecualian){
-                        JOptionPane.showMessageDialog(null, "USERNAME / PASSWORD SALAH", null, JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    inputan();
                 }
                 else{
                     inputan();
                 }
-                userView Umenu = new userView();
-                loginPage.dispose();
+
             }
         });
         tombolKembali.addActionListener(new ActionListener() {
@@ -96,6 +98,13 @@ public class LoginView {
             public void actionPerformed(ActionEvent e) {
                 loginPage.dispose();
                 AppView Register = new AppView();
+            }
+        });
+        tombollogAdmin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loginPage.dispose();
+                LoginAdmin AdminMenu = new LoginAdmin();
             }
         });
     }

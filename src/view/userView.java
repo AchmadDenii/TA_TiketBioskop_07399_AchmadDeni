@@ -13,9 +13,9 @@ public class userView {
     JFrame userMenu = new JFrame();
     JTextArea strukFilm = new JTextArea();
     JComboBox daftarFilm = new JComboBox(DaftarFilm.film);
-    JButton tombolKembali, tombolPilihFilm;
+    JButton tombolKembali, tombolPilihFilm, tombolKonfirmasi;
     JLabel NamaBioskop, menuUser, dataStruk, menuFilm;
-    int cek = AllObjectGUI.user.cekUser(AllObjectGUI.user.getUserData().getUsername());
+    JTextField updateFilm;
 
     public userView() {
         userMenu.setSize(700,650);
@@ -43,24 +43,35 @@ public class userView {
         userMenu.add(menuUser);
 
         dataStruk = new JLabel("STRUCK PEMBELIAN");
-        dataStruk.setBounds(100, 200, 160,25);
-        dataStruk.setFont(new Font("Times New Roman", Font.LAYOUT_LEFT_TO_RIGHT, 12));
+        dataStruk.setBounds(140, 250, 160,25);
+        dataStruk.setFont(new Font("Times New Roman", Font.LAYOUT_LEFT_TO_RIGHT, 15));
         userMenu.add(dataStruk);
-        strukFilm.setBounds(80,210,100,100);
+        strukFilm.setBounds(95,280,250,300);
         userMenu.add(strukFilm);
 
         menuFilm = new JLabel("DAFTAR FILM");
-        menuFilm.setBounds(300,190,300,200);
+        menuFilm.setBounds(400,250,160,25);
         menuFilm.setFont(new Font("Times New Roman", Font.CENTER_BASELINE, 15));
         userMenu.add(menuFilm);
+        daftarFilm.setBounds(400, 280, 160,25);
+        userMenu.add(daftarFilm);
 
         tombolPilihFilm = new JButton("BELI");
-        tombolPilihFilm.setBounds(400,600, 200,100);
+        tombolPilihFilm.setBounds(380,325, 95,40);
         userMenu.add(tombolPilihFilm);
 
         tombolKembali = new JButton("KEMBALI");
-        tombolKembali.setBounds(600,600, 200,100);
+        tombolKembali.setBounds(500,325, 95,40);
         userMenu.add(tombolKembali);
+
+        tombolKonfirmasi = new JButton("UPDATE FILM");
+        tombolKonfirmasi.setBounds(380,400,220,40);
+        userMenu.add(tombolKonfirmasi);
+
+        updateFilm = new JTextField();
+        updateFilm.setBounds(450,450,95,40);
+        userMenu.add(updateFilm);
+        inputan();
     }
     private void event(){
         tombolPilihFilm.addActionListener(new ActionListener() {
@@ -76,10 +87,22 @@ public class userView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 userMenu.dispose();
+                LoginView back = new LoginView();
+            }
+        });
+        tombolKonfirmasi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int updatefilm = daftarFilm.getSelectedIndex();
+                AllObjectGUI.user.update(updateFilm.getText(), updatefilm);
+                inputan();
             }
         });
     }
 
+    void inputan(){
+        updateFilm.setText(null);
+    }
     private String dataUser() {
         int cek = AllObjectGUI.user.cekUser(AllObjectGUI.user.getUserData().getUsername());
         String Confirm;
